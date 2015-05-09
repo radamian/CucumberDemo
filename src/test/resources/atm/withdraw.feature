@@ -3,12 +3,14 @@ Feature: Withdraw money
     As a customer
     I want to withdraw money from an ATM
 
+    @run_me
     Scenario: Withdraw less money than the account has
         Given I have 200 SEK on my account
         When I withdraw 100 SEK
         Then I get 100 SEK from the ATM
         And My account has 100 SEK left
 
+    @run_me
     Scenario: Withdraw more money than the account has
         Given I have 50 SEK on my account
         When I withdraw 100 SEK
