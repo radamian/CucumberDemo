@@ -4,3 +4,7 @@
 
 1. Choose Import... -> Existing Maven project
 2. Select root folder and press ok -> Finish
+
+## Run cucumber tests
+
+Run RunCukesTest as a simple JUnit test
