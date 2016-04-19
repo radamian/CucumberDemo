@@ -1,4 +1,8 @@
-# bdd-atm
+# cucumber-demo
+This is a demo project for [cucumber framework](https://cucumber.io/) used in a simple java application.
+
+## run project
+run `mvn clean install` from the root folder
 
 ## Import project in Eclipse
 
