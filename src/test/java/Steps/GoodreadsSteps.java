@@ -16,11 +16,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
 public class GoodreadsSteps {
     WebDriver driver = new FirefoxDriver();
+    WebDriverWait wait = new WebDriverWait(driver, 10);
+
     String url = "https://www.goodreads.com/";
     private StringBuffer verificationErrors = new StringBuffer();
 
@@ -122,8 +125,8 @@ public class GoodreadsSteps {
 
     @And("^I mark it as <Read>$")
     public void iMarkItAsRead() {
-        try{
-            if (!driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Enlarge cover'])[1]/following::div[3]")).getText().contains("Read)")){
+        try {
+            if (!driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Enlarge cover'])[1]/following::div[3]")).getText().contains("Read)")) {
                 driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='View shelf'])[3]/following::button[1]")).click();
                 driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Events'])[2]/following::div[10]")).click();
                 driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='View shelf'])[3]/following::button[1]")).click();
@@ -133,17 +136,11 @@ public class GoodreadsSteps {
 
             }
 
-
-
-        } catch(Exception e){
+        } catch (Exception e) {
 
         }
-
-
         driver.navigate().back();
     }
-
-
 
 
     @And("^I mark it as <Currently Reading>$")
@@ -218,5 +215,48 @@ public class GoodreadsSteps {
             verificationErrors.append(e.toString());
         }
     }
+
+
+    @When("^I search for a book \"([^\"]*)\"$")
+    public void iSearchForABook(String arg0) throws Throwable {
+        driver.findElement(By.name("q")).click();
+        driver.findElement(By.name("q")).clear();
+        driver.findElement(By.name("q")).sendKeys(arg0);
+        driver.findElement(By.name("q")).sendKeys(Keys.ENTER);
+        throw new PendingException();
+    }
+
+    @Then("^the book is displayed$")
+    public void theBookIsDisplayed() {
+        System.out.println(driver.getTitle());
+    }
+
+    @When("^I select my profile dropdown$")
+    public void iSelectMyProfileDropdown() {
+
+        driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Loading…'])[3]/following::img[1]")).click();
+
+    }
+
+    @Then("^I can choose my favorite genres$")
+    public void iCanChooseMyFavoriteGenres() {
+        try {
+            driver.findElement(By.linkText("Favorite genres")).click();
+
+            driver.findElement(By.id("favorites_Fiction")).click();
+
+            if (driver.findElement(By.id("favorites_Romance")).getAttribute("value").contains("off")) {
+                driver.findElement(By.id("favorites_Romance")).click();//turn it on
+            }
+
+            assertEquals("true", driver.findElement(By.id("favorites_Romance")).getAttribute("value"));
+
+            driver.findElement(By.name("commit")).click();
+        } catch (Error e) {
+            verificationErrors.append(e.toString());
+        }
+
+    }
 }
+
 
