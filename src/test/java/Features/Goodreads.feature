@@ -12,7 +12,6 @@ Feature: Goodreads
     Given I verify the user
 
 
-
   Scenario: Search
     When I search for "Outlander"
     Then I select volume Outlander#1
@@ -23,9 +22,22 @@ Feature: Goodreads
     And I verify its status is <Currently Reading>
     #And I mark it as <Currently Reading>
 
-  @run_me
+
   Scenario:Quiz
     When I select <Community> menu
     And I press om the <Quizzes> option
     Then I select <Guess the book> option
 
+
+  Scenario Outline: Search for more books
+    When I search for a book "<book>"
+    Then the book is displayed
+    Examples:
+      |book                      |
+      |Outlander                 |
+      |Anne                      |
+
+    @run_me
+    Scenario: Complete my profile
+      When I select my profile dropdown
+      Then I can choose my favorite genres
