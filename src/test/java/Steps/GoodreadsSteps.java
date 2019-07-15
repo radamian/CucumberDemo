@@ -1,5 +1,6 @@
 package Steps;
 
+import static java.lang.Thread.sleep;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
@@ -12,10 +13,9 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.junit.AfterClass;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
@@ -256,6 +256,40 @@ public class GoodreadsSteps {
             verificationErrors.append(e.toString());
         }
 
+    }
+
+
+    @When("^I select one of my books$")
+    public void iSelectOneOfMyBooks() {
+        driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Diana Gabaldon'])[1]/following::button[1]")).click();
+
+
+
+    }
+
+    @Then("^I can enter the page number I lately reached$")
+    public void iCanEnterThePageNumberILatelyReached() {
+        driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Currently on'])[1]/following::input[1]")).sendKeys("250");
+        driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Currently on'])[1]/following::input[1]")).sendKeys(Keys.ENTER);
+    }
+
+    @When("^I press Update button for a book$")
+    public void iPressUpdateButtonForABook() {
+        driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Currently on'])[1]/following::input[1]")).click();
+        driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Currently on'])[1]/following::input[1]")).clear();
+    }
+
+    @Given("^I test scrolling$")
+    public void iTestScrolling() throws InterruptedException {
+        driver.findElement(By.linkText("My Books")).click();
+
+
+        WebElement element = driver.findElement(By.linkText("Dans le café de la jeunesse perdue"));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        sleep(500);
+
+
+        element.click();
     }
 }
 
