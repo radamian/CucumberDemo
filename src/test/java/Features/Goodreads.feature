@@ -33,11 +33,22 @@ Feature: Goodreads
     When I search for a book "<book>"
     Then the book is displayed
     Examples:
-      |book                      |
-      |Outlander                 |
-      |Anne                      |
+      | book      |
+      | Outlander |
+      | Anne      |
 
-    @run_me
-    Scenario: Complete my profile
-      When I select my profile dropdown
-      Then I can choose my favorite genres
+
+  Scenario: Complete my profile
+    When I select my profile dropdown
+    Then I can choose my favorite genres
+
+
+  Scenario: Update
+    When I select one of my books
+    When I press Update button for a book
+    Then I can enter the page number I lately reached
+
+  @run_me
+    Scenario: Test
+      Given I test scrolling
+
